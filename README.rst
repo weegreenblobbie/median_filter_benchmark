@@ -1,11 +1,13 @@
-median_filter_benchmark
-=======================
+1D MOving Median Benchmark
+==========================
 
 
 What is this?
 -------------
 
-A program that times various techniques for performing a moving median filter (sometimes called rolling median, or streaming median).
+This is a stand-alone C++11 program that times various techniques for performing a 1D moving median filter (sometimes called rolling median, or streaming median).
+
+It currently only uses a signle thread.
 
 
 How to build
@@ -47,3 +49,13 @@ Current Results
             513               649               47                31
 
 
+All Stats Plotted
+~~~~~~~~~~~~~~~~~
+
+.. image:: stats_all.png
+
+
+Ingoring Nth Element
+~~~~~~~~~~~~~~~~~~~~
+
+.. image:: stats_zoom.png
