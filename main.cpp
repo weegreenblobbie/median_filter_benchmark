@@ -167,11 +167,11 @@ public:
         {
             // step 1, remove oldest value from the pool.
 
-            auto old_index = (hist_ptr + 1) % _pool.size();
+            auto last = _history[hist_ptr];
 
-            auto pool_index = std::lower_bound(_pool.begin(), _pool.end(), _history[old_index]);
+            auto last_pos = std::lower_bound(_pool.begin(), _pool.end(), last);
 
-            _pool.erase(pool_index);
+            _pool.erase(last_pos);
 
             // step 2, insert new value into pool
 
@@ -183,7 +183,7 @@ public:
 
             _history[hist_ptr] = x;
 
-            hist_ptr = old_index;
+            hist_ptr = (hist_ptr + 1) % _history.size();
 
             // median is always the middle of the pool
 
@@ -237,11 +237,11 @@ public:
         {
             // step 1, remove oldest value from the pool.
 
-            auto old_index = (hist_ptr + 1) % _pool.size();
+            auto last = _history[hist_ptr];
 
-            auto pool_index = std::lower_bound(_pool.begin(), _pool.end(), _history[old_index]);
+            auto last_pos = std::lower_bound(_pool.begin(), _pool.end(), last);
 
-            _pool.erase(pool_index);
+            _pool.erase(last_pos);
 
             // step 2, insert new value into pool
 
@@ -253,7 +253,7 @@ public:
 
             _history[hist_ptr] = x;
 
-            hist_ptr = old_index;
+            hist_ptr = (hist_ptr + 1) % _history.size();
 
             // median is always the middle of the pool
 
@@ -491,14 +491,14 @@ std::string print(const std::string & in, unsigned width, Alignment align = left
 }
 
 
-
-int main(int argc, char ** argv)
+template <class T>
+void run_test()
 {
     std::vector<unsigned> window_sizes = {3, 5, 9, 17, 33, 65, 129, 257, 513};
 
     using std::cout;
 
-    using Type = float;
+    using Type = T;
 
     auto tname = type_string<Type>();
 
@@ -539,6 +539,88 @@ int main(int argc, char ** argv)
         }
 
         cout << "\n";
+    }
+}
+
+
+
+int main(int argc, char ** argv)
+{
+    std::vector<std::string> arguments;
+
+    for(int i = 1; i < argc; ++i)
+    {
+        arguments.push_back(std::string(argv[i]));
+    }
+
+    // default
+
+    if(arguments.empty())
+    {
+        arguments.push_back("--float");
+    }
+
+    //-------------------------------------------------------------------------
+    // handle command line arguments
+
+    for(auto & arg : arguments)
+    {
+        if(arg == "-h" || arg == "--help")
+        {
+            std::cout << R"xxx(
+usage: main OPTIONS
+
+Options:
+
+    -h|--help    Displays this help message
+    --short      Runs the benchmark using short type
+    --int        Runs the benchmark using int type
+    --long-long  Runs the benchmark using long long type
+    --float      Runs the benchmark using float type
+    --double     Runs the benchmark using double type
+
+)xxx"
+            << "\n";
+
+            return 1;
+        }
+
+        else
+        if(arg == "--short")
+        {
+            run_test<short>();
+            break;
+        }
+        else
+        if(arg == "--int")
+        {
+            run_test<int>();
+            break;
+        }
+        else
+        if(arg == "--long-long")
+        {
+            run_test<long long>();
+            break;
+        }
+        else
+        if(arg == "--float")
+        {
+            run_test<float>();
+            break;
+        }
+        else
+        if(arg == "--double")
+        {
+            run_test<double>();
+            break;
+        }
+
+        else
+        {
+            std::cerr << "unknown option '" << arg << "'\n";
+            return 1;
+        }
     }
 
     return 0;

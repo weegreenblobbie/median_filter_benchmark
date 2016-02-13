@@ -23,7 +23,22 @@ How to execute benchmark
 
 .. code-block:: bash
 
-    ./main
+    ./main --help
+
+    usage: main OPTIONS
+
+    Options:
+
+        -h|--help    Displays this help message
+        --short      Runs the benchmark using short type
+        --int        Runs the benchmark using int type
+        --long-long  Runs the benchmark using long long type
+        --float      Runs the benchmark using float type
+        --double     Runs the benchmark using double type
+
+.. code-block:: bash
+
+    ./main --float
 
 
 Current Results
@@ -38,15 +53,15 @@ Current Results
         n iterations  = 15
     TABLE:
           Window          NthElement      LowerBoundDeque  LowerBoundVector
-             3                 4                 7                 4
-             5                 7                10                 6
-             9                15                14                 8
-            17                30                18                10
-            33                52                23                13
-            65                87                27                17
-            129               159               32                21
-            257               307               38                25
-            513               649               47                31
+             3                 4                14                 4
+             5                 7                19                 6
+             9                15                25                 8
+            17                30                31                11
+            33                50                36                14
+            65                85                41                18
+            129               154               49                23
+            257               295               56                26
+            513               618               68                32
 
 
 All Stats Plotted
