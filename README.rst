@@ -1,4 +1,4 @@
-1D MOving Median Benchmark
+1D Moving Median Benchmark
 ==========================
 
 
